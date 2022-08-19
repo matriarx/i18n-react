@@ -1,0 +1,29 @@
+---
+name: Release
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+on:
+  release:
+    types:
+      - created
+  workflow_dispatch:
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ci
+    steps:
+      - name: CI
+        run: echo Mock
+  release:
+    needs:
+      - ci
+    name: Release
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: production
+    steps:
+      - name: Release
+        run: echo Mock

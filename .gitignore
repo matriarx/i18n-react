@@ -1,0 +1,11 @@
+# os
+Desktop.ini
+Thumbs.db
+.DS_Store
+._*
+
+# ide
+*.swp
+*.save*
+.vscode
+.idea

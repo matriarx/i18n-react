@@ -1,0 +1,28 @@
+---
+name: CD
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+on:
+  push:
+    tags: '*'
+  workflow_dispatch:
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ci
+    steps:
+      - name: CI
+        run: echo Mock
+  deploy:
+    needs:
+      - ci
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: production
+    steps:
+      - name: Deploy
+        run: echo Mock
