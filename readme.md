@@ -205,32 +205,29 @@ This project is a continuous work in progress.
 
 ### 🧚🏻‍♀️✨ Usage ✨🦄
 
-First set up the context provider:
+#### 🧚🏻‍♀️✨ Context
 
 ```
 import {LocaleContextProvider} from '@matriarx/i18n-react'
 
 export const App = (): JSX.Element => {
-  ...
   return (
-    ...
     <LocaleContextProvider>
-      ...
+      <></>
     </LocaleContextProvider>
-    ...
   )
 }
 
 export default App
 ```
 
-Then you can use the hook:
+#### 🧚🏻‍♀️✨ Hook
 
 ```
 import {useLocale} from '@matriarx/i18n-react'
 
 const Example = (): JSX.Element => {
-  const {Language, Region, getSupportedLanguages, getSupportedCurrencies} = useLocale()
+  const {Language, Region} = useLocale()
 
   return <></>
 }
@@ -238,9 +235,7 @@ const Example = (): JSX.Element => {
 export default Example
 ```
 
-There are a lot of enumerations and other utilities you can use.
-
-If you need translation support you can set up the translations as well:
+#### 🧚🏻‍♀️✨ Translations
 
 ```
 import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
@@ -268,7 +263,7 @@ export const App = (): JSX.Element => {
 export default App
 ```
 
-You can then use like this:
+> The map key should be of the form `<language>-<script>-<region>`.
 
 ```
 import {useLocale} from '@matriarx/i18n-react'
@@ -282,16 +277,17 @@ const Example = (): JSX.Element => {
 export default Example
 ```
 
-The key of the map should be of the form `language`-`script`-`region`.
-
-You can also supply the URL instead of the translations in order to have them lazy loaded:
+#### 🧚🏻‍♀️✨ Lazy
 
 ```
 import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
 
-const translations = new Map<string, Map<string, string>>()
+import en from '/path/to/en.json'
 
-translations.set(new Intl.Locale(Language.EN).maximize().baseName, 'https://example.org'))
+const translations = new Map<string, Map<string, string>>()
+const path = '/path/to/en.json'
+
+translations.set(new Intl.Locale(Language.EN).maximize().baseName, path))
 
 export const App = (): JSX.Element => {
   ...
@@ -309,6 +305,8 @@ export const App = (): JSX.Element => {
 
 export default App
 ```
+
+> To lazy load translation data you can provide an import path instead of a map.
 
 ## 🧚🏻‍♀️✨ Development ✨🔮
 

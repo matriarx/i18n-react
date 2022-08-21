@@ -1,25 +1,14 @@
 import {createContext, useState, useEffect} from 'react'
 
-import {
-  getSystemLocale,
-  getCanonicalLocales,
-  getSupportedCalendars,
-  getSupportedTimeZones,
-  getSupportedCollations,
-  getSupportedNumberingSystems,
-  getSupportedUnits,
-  getSupportedCurrencies,
-} from 'utils'
+import {getSystemLocale} from 'utils'
 
 import {
   Calendar,
   Region,
-  Case,
   Language,
   Script,
   Collation,
   NumberingSystem,
-  Unit,
 } from 'enums'
 
 import type {ReactNode} from 'react'
@@ -53,15 +42,6 @@ export const setLocalStorageTranslations = (
 ) => localStorage.setItem('matriarx_locale', JSON.stringify(translations))
 
 export interface LocaleContext {
-  getSystemLocale: () => Intl.Locale
-  getCanonicalLocales: (locale: string) => string[]
-  getSupportedCalendars: () => Calendar[]
-  getSupportedTimeZones: () => string[]
-  getSupportedCollations: () => Collation[]
-  getSupportedNumberingSystems: () => NumberingSystem[]
-  getSupportedUnits: () => Unit[]
-  getSupportedCurrencies: () => string[]
-  getCaseFirsts: () => Intl.LocaleCollationCaseFirst[]
   locale: Intl.Locale
   setLocale: (locale: Intl.Locale) => void
   minimize: () => void
@@ -130,14 +110,14 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
       return
     }
 
-    const map = (await import(translations.get(baseName) as string)).default
-
-    setTranslations(
-      new Map(translations).set(
-        baseName,
-        new Map<string, string>(Object.entries(map)),
-      ),
+    const data = (await import(translations.get(baseName) as string)).default
+    const map = new Map(translations).set(
+      baseName,
+      new Map<string, string>(Object.entries(data)),
     )
+
+    setLocalStorageTranslations(map)
+    setTranslations(map)
   }
 
   useEffect(() => {
@@ -145,19 +125,6 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
   }, [])
 
   const value = {
-    getSystemLocale,
-    getCanonicalLocales,
-    getSupportedCalendars,
-    getSupportedTimeZones,
-    getSupportedCollations,
-    getSupportedNumberingSystems,
-    getSupportedUnits,
-    getSupportedCurrencies,
-    getCaseFirsts: (): Intl.LocaleCollationCaseFirst[] => [
-      Case.LOWER,
-      Case.UPPER,
-      'false',
-    ],
     locale,
     setLocale: (locale: Intl.Locale) => set(locale),
     minimize: () => set(locale.minimize()),
@@ -224,6 +191,8 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
 export default {
   getLocalStorageLocale,
   setLocalStorageLocale,
+  getLocalStorageTranslations,
+  setLocalStorageTranslations,
   LocaleContext,
   LocaleContextProvider,
 }
