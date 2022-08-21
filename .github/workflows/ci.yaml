@@ -155,8 +155,8 @@ jobs:
         node-version:
           - 18
     env:
-      NODE_ENV: production
-      ENVIRONMENT: production
+      NODE_ENV: ci
+      ENVIRONMENT: ci
     steps:
       - name: Checkout
         uses: actions/checkout@v3
