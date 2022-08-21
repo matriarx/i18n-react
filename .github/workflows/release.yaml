@@ -186,6 +186,9 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
           registry-url: https://registry.npmjs.org
+          cache: npm
+      - name: Install
+        run: npm install --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
       - name: Type
         run: npm run type
       - name: Publish
