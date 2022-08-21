@@ -230,7 +230,7 @@ Then you can use the hook:
 import {useLocale} from '@matriarx/i18n-react'
 
 const Example = (): JSX.Element => {
-  const {Language, Region, getSupportedLanguages, getSupportedCurrencies} = useLocale()
+  const {Language, Region, supportedLanguages, supportedCurrencies} = useLocale()
 
   return <></>
 }

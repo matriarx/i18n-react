@@ -74,7 +74,7 @@
     "style": "prettier --write '{src,tests}/**/*.ts' --loglevel log --no-error-on-unmatched-pattern",
     "test": "jest --config .jestrc.json --colors --passWithNoTests",
     "qa": "npm run review && npm run lint && npm run style && npm test",
-    "type": "tsc --emitDeclarationOnly",
+    "type": "tsc --project typescript.json --emitDeclarationOnly",
     "prepare": "husky install bin && git add bin/pre-commit && git add bin/pre-push"
   },
   "bin": {
