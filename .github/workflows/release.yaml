@@ -83,7 +83,6 @@ jobs:
     env:
       ENVIRONMENT: ci
       NODE_ENV: ci
-      DEBUG: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -108,7 +107,6 @@ jobs:
     env:
       ENVIRONMENT: ci
       NODE_ENV: ci
-      DEBUG: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -149,7 +147,6 @@ jobs:
     env:
       ENVIRONMENT: production
       NODE_ENV: production
-      DEBUG: false
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -161,7 +158,7 @@ jobs:
           node-version: ${{matrix.node-version}}
           cache: npm
       - name: Install
-        run: npm install --production --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
+        run: npm install --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
       - name: Build
         run: npm run build
   publish:
@@ -181,7 +178,6 @@ jobs:
     env:
       ENVIRONMENT: production
       NODE_ENV: production
-      DEBUG: false
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
