@@ -81,8 +81,8 @@ jobs:
         node-version:
           - 18
     env:
-      ENVIRONMENT: ci
       NODE_ENV: ci
+      ENVIRONMENT: ci
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -105,8 +105,8 @@ jobs:
         node-version:
           - 18
     env:
-      ENVIRONMENT: ci
       NODE_ENV: ci
+      ENVIRONMENT: ci
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -145,8 +145,8 @@ jobs:
         node-version:
           - 18
     env:
-      ENVIRONMENT: production
       NODE_ENV: production
+      ENVIRONMENT: production
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -176,14 +176,19 @@ jobs:
         node-version:
           - 18
     env:
-      ENVIRONMENT: production
       NODE_ENV: production
+      ENVIRONMENT: production
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup
+        uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
           registry-url: https://registry.npmjs.org
-      - run: npm publish --tag latest --access public
+      - name: Type
+        run: npm run type
+      - name: Publish
+        run: npm publish --tag latest --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
