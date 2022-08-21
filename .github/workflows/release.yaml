@@ -188,6 +188,6 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
           registry-url: https://registry.npmjs.org
-      - run: npm publish ./init --tag latest --access public
+      - run: npm publish --tag latest --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
