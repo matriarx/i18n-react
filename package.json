@@ -75,6 +75,7 @@
     "test": "jest --config .jestrc.json --colors --passWithNoTests",
     "qa": "npm run review && npm run lint && npm run style && npm test",
     "type": "tsc --project typescript.json --emitDeclarationOnly",
+    "clean": "rm -rf node_modules && rm -rf lib && rm -rf types && rm -rf coverage && rm -rf cache && rm -rf .swc && npm cache clean --force",
     "prepare": "husky install bin && git add bin/pre-commit && git add bin/pre-push"
   },
   "bin": {

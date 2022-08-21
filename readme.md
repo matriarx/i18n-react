@@ -230,7 +230,7 @@ Then you can use the hook:
 import {useLocale} from '@matriarx/i18n-react'
 
 const Example = (): JSX.Element => {
-  const {Language, Region, supportedLanguages, supportedCurrencies} = useLocale()
+  const {Language, Region, getSupportedLanguages, getSupportedCurrencies} = useLocale()
 
   return <></>
 }
@@ -238,30 +238,26 @@ const Example = (): JSX.Element => {
 export default Example
 ```
 
-There are a lot of enumerations, utility functions and other neat things you can use.
+There are a lot of enumerations and other utilities you can use.
 
 If you need translation support you can set up the translations as well:
 
 ```
-import {LocaleContextProvider} from '@matriarx/i18n-react'
+import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
 
-import enLatnUS from 'static/locales/en-Latn-US.json'
+import en from '/path/to/en.json'
 
-const locales = new Map<string, Map<string, string>>()
+const translations = new Map<string, Map<string, string>>()
 
-locales.set('en-Latn-US', new Map<string, string>(Object.entries(enLatnUS)))
+translations.set(new Intl.Locale(Language.EN).maximize().baseName, new Map<string, string>(Object.entries(en)))
 
 export const App = (): JSX.Element => {
   ...
   return (
     ...
     <LocaleContextProvider
-      locales={locales}
-      default={{
-        language: Language.EN,
-        script: Script.LATN,
-        region: Region.US,
-      }}
+      locale={new Intl.Locale(Language.EN)}
+      translations={translations}
     >
       ...
     </LocaleContextProvider>
@@ -272,7 +268,7 @@ export const App = (): JSX.Element => {
 export default App
 ```
 
-Then you can use them through the hook:
+You can then use like this:
 
 ```
 import {useLocale} from '@matriarx/i18n-react'
@@ -286,7 +282,33 @@ const Example = (): JSX.Element => {
 export default Example
 ```
 
-You will have to supply it with your own JSON formatted translations and the key of the map should be of the form `language`-`script`-`region`.
+The key of the map should be of the form `language`-`script`-`region`.
+
+You can also supply the URL instead of the translations in order to have them lazy loaded:
+
+```
+import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
+
+const translations = new Map<string, Map<string, string>>()
+
+translations.set(new Intl.Locale(Language.EN).maximize().baseName, 'https://example.org'))
+
+export const App = (): JSX.Element => {
+  ...
+  return (
+    ...
+    <LocaleContextProvider
+      locale={new Intl.Locale(Language.EN)}
+      translations={translations}
+    >
+      ...
+    </LocaleContextProvider>
+    ...
+  )
+}
+
+export default App
+```
 
 ## 🧚🏻‍♀️✨ Development ✨🔮
 
@@ -316,10 +338,7 @@ You will have to supply it with your own JSON formatted translations and the key
 🪄✨ `npm run test` ~ Run the tests using `jest`.\
 🪄✨ `npm run qa` ~ Run review, lint, style and test.\
 🪄✨ `npm run type` ~ Generate types using `typescript`.\
-🪄✨ `npm run compose` ~ Start a docker container for development.\
-🪄✨ `npm run recompose` ~ Rebuild the docker container.\
-🪄✨ `npm run release` ~ Create a docker release image.\
-🪄✨ `npm run deploy` ~ Start a docker container using the release image.\
+🪄✨ `npm run clean` ~ Clean up the project, remove all temporary files and the cache.\
 🪄✨ `npm run prepare` ~ Automatically run on `npm install` to add `husky` hooks to git for `lint-staged`.
 
 ## 🧚🏻‍♀️✨ Documentation 📚🔮
