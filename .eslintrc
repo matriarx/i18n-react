@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
+  "root": true,
+  "ignorePatterns": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "tsconfigRootDir": ".",
+    "project": "tsconfig.json",
+    "sourceType": "module",
+    "ecmaVersion": 12,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es2022": true,
+    "jest": true,
+    "browser": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect",
+      "pragma": "React",
+      "fragment" : "Fragment",
+      "createClass": "createReactClass"
+    },
+    "propWrapperFunctions": [],
+    "componentWrapperFunctions": [],
+    "formComponents": [],
+    "linkComponents": []
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  },
+  "overrides": []
+}

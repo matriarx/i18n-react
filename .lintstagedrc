@@ -1,0 +1,7 @@
+{
+  "{src,tests}/**/*.{ts,tsx}": [
+    "bash -c tsc --noEmit",
+    "eslint --fix --color --debug --no-error-on-unmatched-pattern",
+    "prettier --write --loglevel log --no-error-on-unmatched-pattern"
+  ]
+}

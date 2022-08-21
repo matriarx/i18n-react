@@ -1,0 +1,63 @@
+{
+  "test": ".*.tsx?$",
+  "isModule": true,
+  "jsc": {
+    "baseUrl": ".",
+    "paths": {
+      "app": ["src"],
+      "app/*": ["src/*"],
+      "context": ["src/context"],
+      "context/*": ["src/context/*"],
+      "hooks": ["src/hooks"],
+      "hooks/*": ["src/hooks/*"],
+      "utils": ["src/utils"],
+      "utils/*": ["src/utils/*"],
+      "enums": ["src/enums"],
+      "enums/*": ["src/enums/*"],
+      "types": ["src/types"],
+      "types/*": ["src/types/*"]
+    },
+    "parser": {
+      "syntax": "typescript",
+      "dynamicImport": true,
+      "topLevelAwait": true,
+      "privateMethod": false,
+      "functionBind": false,
+      "exportDefaultFrom": false,
+      "exportNamespaceFrom": false,
+      "decorators": false,
+      "decoratorsBeforeExport": false,
+      "importMeta": false,
+      "jsx": false,
+      "tsx": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "pragma": "h",
+        "pragmaFrag": "f"
+      },
+      "legacyDecorator": false,
+      "decoratorMetadata": false
+    },
+    "target": "es2022",
+    "loose": false,
+    "keepClassNames": false,
+    "externalHelpers": false,
+    "preserveAllComments": false,
+    "experimental": {
+      "keepImportAssertions": true
+    }
+  },
+  "module": {
+    "type": "nodenext",
+    "strict": true,
+    "strictMode": true,
+    "noInterop": false,
+    "lazy": false
+  },
+  "sourceMaps": true,
+  "inlineSourcesContent": true,
+  "emitSourceMapColumns": true,
+  "minify": true
+}

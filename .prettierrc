@@ -1,0 +1,23 @@
+{
+  "parser": "typescript",
+  "requirePragma": false,
+  "insertPragma": false,
+  "printWidth": 80,
+  "useTabs": false,
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "quoteProps": "as-needed",
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "bracketSpacing": false,
+  "bracketSameLine": false,
+  "singleAttributePerLine": true,
+  "proseWrap": "preserve",
+  "htmlWhitespaceSensitivity": "ignore",
+  "embeddedLanguageFormatting": "off",
+  "vueIndentScriptAndStyle": true,
+  "endOfLine": "lf",
+  "overrides": []
+}
