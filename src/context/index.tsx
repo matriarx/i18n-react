@@ -1,4 +1,4 @@
-import {createContext, useState} from 'react'
+import {createContext, useState, useEffect} from 'react'
 
 import {
   getSystemLocale,
@@ -126,10 +126,7 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
   const load = async (locale: Intl.Locale): Promise<void> => {
     const baseName = locale.maximize().baseName
 
-    if (
-      translations.has(baseName) ||
-      typeof translations.get(baseName) !== 'string'
-    ) {
+    if (typeof translations.get(baseName) !== 'string') {
       return
     }
 
@@ -142,6 +139,10 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
       ),
     )
   }
+
+  useEffect(() => {
+    load(locale)
+  }, [])
 
   const value = {
     getSystemLocale,
