@@ -13,77 +13,55 @@ import {
 
 import {
   Calendar,
-  HourCycle,
   Region,
   Case,
   Language,
   Script,
   Collation,
-  TextDirection,
   NumberingSystem,
   Unit,
 } from 'enums'
 
 import type {ReactNode} from 'react'
 
-const getLocalStorageItem = (id: string): string | object | null =>
-  JSON.parse(localStorage.getItem(id) || 'null')
+export const getLocalStorageLocale = (): Intl.Locale | null => {
+  const locale = JSON.parse(localStorage.getItem('matriarx_locale') || 'null')
 
-const setLocalStorageItem = (id: string, value: string | object): void =>
-  localStorage.setItem(id, JSON.stringify(value))
-
-export const getLocale = (): Intl.Locale => {
-  const locale = getLocalStorageItem('locale')
-
-  if (!locale || typeof locale !== 'string') {
-    return getSystemLocale()
-  }
-
-  return new Intl.Locale(locale) as Intl.Locale
+  return locale ? new Intl.Locale(locale) : null
 }
 
-export const setLocale = (locale: Intl.Locale) =>
-  setLocalStorageItem('locale', locale.baseName)
+export const setLocalStorageLocale = (locale: Intl.Locale) =>
+  localStorage.setItem('matriarx_locale', JSON.stringify(locale.baseName))
 
-const translations = new Map<string, Map<string, string> | null>()
-
-const lazyLoadTranslations = async (locale: Intl.Locale): Promise<void> => {
-  const canonicalLocale = getCanonicalLocales(
-    locale.minimize().baseName,
-  )[0] as string
-
-  if (!translations.has(canonicalLocale)) {
-    return
-  }
-
-  const data = (await import(`static/locales/${canonicalLocale}`)).default
-
-  translations.set(
-    canonicalLocale,
-    new Map<string, string>(Object.entries(data.translations)),
+export const getLocalStorageTranslations = (): Map<
+  string,
+  Map<string, string> | string
+> | null => {
+  const translations = JSON.parse(
+    localStorage.getItem('matriarx_translations') || 'null',
   )
+
+  return translations
+    ? new Map<string, Map<string, string> | string>(
+        Object.entries(translations),
+      )
+    : null
 }
+
+export const setLocalStorageTranslations = (
+  translations: Map<string, Map<string, string> | string>,
+) => localStorage.setItem('matriarx_locale', JSON.stringify(translations))
 
 export interface LocaleContext {
-  canonicalLocales: (locale: string) => string[]
-  calendars: () => Calendar[]
-  supportedCalendars: () => Calendar[]
-  hourCycles: () => Intl.LocaleHourCycleKey[]
-  supportedTimeZones: () => string[]
-  regions: () => Region[]
-  cases: () => Case[]
-  languages: () => Language[]
-  scripts: () => Script[]
-  collations: () => Collation[]
-  supportedCollations: () => Collation[]
-  caseFirsts: () => Intl.LocaleCollationCaseFirst[]
-  textDirections: () => TextDirection[]
-  numberingSystems: () => NumberingSystem[]
-  supportedNumberingSystems: () => NumberingSystem[]
-  units: () => Unit[]
-  supportedUnits: () => Unit[]
-  supportedCurrencies: () => string[]
-  systemLocale: () => Intl.Locale
+  getSystemLocale: () => Intl.Locale
+  getCanonicalLocales: (locale: string) => string[]
+  getSupportedCalendars: () => Calendar[]
+  getSupportedTimeZones: () => string[]
+  getSupportedCollations: () => Collation[]
+  getSupportedNumberingSystems: () => NumberingSystem[]
+  getSupportedUnits: () => Unit[]
+  getSupportedCurrencies: () => string[]
+  getCaseFirsts: () => Intl.LocaleCollationCaseFirst[]
   locale: Intl.Locale
   setLocale: (locale: Intl.Locale) => void
   minimize: () => void
@@ -125,50 +103,60 @@ export interface LocaleContext {
 export const LocaleContext = createContext<LocaleContext>({} as LocaleContext)
 
 export interface LocaleContextProvider {
-  locales: Map<string, Map<string, string>>
-  default: string
+  locale?: Intl.Locale | undefined
+  translations?: Map<string, Map<string, string> | string> | undefined
   children: ReactNode
 }
 
 export const LocaleContextProvider = (props: LocaleContextProvider) => {
-  const [locale, loadLocale] = useState<Intl.Locale>(getLocale())
-  // const [translations, setTranslations] = useState<Map<string, string>()
+  const [locale, setLocale] = useState<Intl.Locale>(
+    getLocalStorageLocale() || props.locale || getSystemLocale(),
+  )
+  const [translations, setTranslations] = useState<
+    Map<string, Map<string, string> | string>
+  >(getLocalStorageTranslations() || props.translations || new Map())
 
-  const set = (locale: Intl.Locale) => {
+  const set = async (locale: Intl.Locale): Promise<void> => {
+    await load(locale)
+
+    setLocalStorageLocale(locale)
     setLocale(locale)
-    loadLocale(locale)
   }
 
-  const load = async (locale: Intl.Locale) => {
-    await lazyLoadTranslations(locale)
+  const load = async (locale: Intl.Locale): Promise<void> => {
+    const baseName = locale.maximize().baseName
 
-    set(locale)
+    if (
+      translations.has(baseName) ||
+      typeof translations.get(baseName) !== 'string'
+    ) {
+      return
+    }
+
+    const map = (await import(translations.get(baseName) as string)).default
+
+    setTranslations(
+      new Map(translations).set(
+        baseName,
+        new Map<string, string>(Object.entries(map)),
+      ),
+    )
   }
 
   const value = {
-    canonicalLocales: getCanonicalLocales,
-    calendars: (): Calendar[] => Object.values(Calendar),
-    supportedCalendars: getSupportedCalendars,
-    hourCycles: (): Intl.LocaleHourCycleKey[] => Object.values(HourCycle),
-    supportedTimeZones: getSupportedTimeZones,
-    regions: (): Region[] => Object.values(Region),
-    cases: (): Case[] => Object.values(Case),
-    languages: (): Language[] => Object.values(Language),
-    scripts: (): Script[] => Object.values(Script),
-    collations: (): Collation[] => Object.values(Collation),
-    supportedCollations: getSupportedCollations,
-    caseFirsts: (): Intl.LocaleCollationCaseFirst[] => [
+    getSystemLocale,
+    getCanonicalLocales,
+    getSupportedCalendars,
+    getSupportedTimeZones,
+    getSupportedCollations,
+    getSupportedNumberingSystems,
+    getSupportedUnits,
+    getSupportedCurrencies,
+    getCaseFirsts: (): Intl.LocaleCollationCaseFirst[] => [
       Case.LOWER,
       Case.UPPER,
       'false',
     ],
-    textDirections: (): TextDirection[] => Object.values(TextDirection),
-    numberingSystems: (): NumberingSystem[] => Object.values(NumberingSystem),
-    supportedNumberingSystems: getSupportedNumberingSystems,
-    units: (): Unit[] => Object.values(Unit),
-    supportedUnits: getSupportedUnits,
-    supportedCurrencies: getSupportedCurrencies,
-    systemLocale: getSystemLocale,
     locale,
     setLocale: (locale: Intl.Locale) => set(locale),
     minimize: () => set(locale.minimize()),
@@ -182,14 +170,12 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
     setHourCycle: (hourCycle: Intl.LocaleHourCycleKey) =>
       set(new Intl.Locale(locale, {hourCycle})),
     region: locale.region as Region,
-    setRegion: async (region: Region) =>
-      load(new Intl.Locale(locale, {region})),
+    setRegion: async (region: Region) => set(new Intl.Locale(locale, {region})),
     language: locale.language as Language,
     setLanguage: async (language: Language) =>
-      load(new Intl.Locale(locale, {language})),
+      set(new Intl.Locale(locale, {language})),
     script: locale.script as Script,
-    setScript: async (script: Script) =>
-      load(new Intl.Locale(locale, {script})),
+    setScript: async (script: Script) => set(new Intl.Locale(locale, {script})),
     collation: locale.collation as Collation,
     setCollation: (collation: Collation) =>
       set(new Intl.Locale(locale, {collation})),
@@ -218,9 +204,13 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
     numberFormat: (options: Intl.NumberFormatOptions) =>
       new Intl.NumberFormat(locale.baseName, options),
     translations: () =>
-      translations.get(locale.minimize().baseName) as Map<string, string>,
+      translations.get(locale.maximize().baseName) as Map<string, string>,
     translate: (text: string) =>
-      translations.get(locale.minimize().baseName)?.get(text) || text,
+      translations
+        ? (
+            translations.get(locale.maximize().baseName) as Map<string, string>
+          ).get(text) || text
+        : text,
   }
 
   return (
@@ -231,8 +221,8 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
 }
 
 export default {
-  getLocale,
-  setLocale,
+  getLocalStorageLocale,
+  setLocalStorageLocale,
   LocaleContext,
   LocaleContextProvider,
 }
