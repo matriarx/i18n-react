@@ -1,6 +1,5 @@
 import {createContext, useState} from 'react'
 
-import {getLocalStorageItem, setLocalStorageItem} from 'utils/browser'
 import {
   getSystemLocale,
   getCanonicalLocales,
@@ -10,25 +9,28 @@ import {
   getSupportedNumberingSystems,
   getSupportedUnits,
   getSupportedCurrencies,
-} from 'utils/intl'
-import {getCalendars, getHourCycles} from 'utils/datetime'
-import {getRegions} from 'utils/location'
-import {
-  getCases,
-  getLanguages,
-  getScripts,
-  getCollations,
-  getCaseFirsts,
-  getTextDirections,
-} from 'utils/text'
-import {getNumberingSystems, getUnits} from 'utils/number'
+} from 'utils'
 
-import {Calendar} from 'enums/datetime'
-import {Region} from 'enums/location'
-import {Case, Language, Script, Collation, TextDirection} from 'enums/text'
-import {NumberingSystem, Unit} from 'enums/number'
+import {
+  Calendar,
+  HourCycle,
+  Region,
+  Case,
+  Language,
+  Script,
+  Collation,
+  TextDirection,
+  NumberingSystem,
+  Unit,
+} from 'enums'
 
 import type {ReactNode} from 'react'
+
+const getLocalStorageItem = (id: string): string | object | null =>
+  JSON.parse(localStorage.getItem(id) || 'null')
+
+const setLocalStorageItem = (id: string, value: string | object): void =>
+  localStorage.setItem(id, JSON.stringify(value))
 
 export const getLocale = (): Intl.Locale => {
   const locale = getLocalStorageItem('locale')
@@ -145,21 +147,25 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
 
   const value = {
     canonicalLocales: getCanonicalLocales,
-    calendars: getCalendars,
+    calendars: (): Calendar[] => Object.values(Calendar),
     supportedCalendars: getSupportedCalendars,
-    hourCycles: getHourCycles,
+    hourCycles: (): Intl.LocaleHourCycleKey[] => Object.values(HourCycle),
     supportedTimeZones: getSupportedTimeZones,
-    regions: getRegions,
-    cases: getCases,
-    languages: getLanguages,
-    scripts: getScripts,
-    collations: getCollations,
+    regions: (): Region[] => Object.values(Region),
+    cases: (): Case[] => Object.values(Case),
+    languages: (): Language[] => Object.values(Language),
+    scripts: (): Script[] => Object.values(Script),
+    collations: (): Collation[] => Object.values(Collation),
     supportedCollations: getSupportedCollations,
-    caseFirsts: getCaseFirsts,
-    textDirections: getTextDirections,
-    numberingSystems: getNumberingSystems,
+    caseFirsts: (): Intl.LocaleCollationCaseFirst[] => [
+      Case.LOWER,
+      Case.UPPER,
+      'false',
+    ],
+    textDirections: (): TextDirection[] => Object.values(TextDirection),
+    numberingSystems: (): NumberingSystem[] => Object.values(NumberingSystem),
     supportedNumberingSystems: getSupportedNumberingSystems,
-    units: getUnits,
+    units: (): Unit[] => Object.values(Unit),
     supportedUnits: getSupportedUnits,
     supportedCurrencies: getSupportedCurrencies,
     systemLocale: getSystemLocale,

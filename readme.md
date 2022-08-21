@@ -210,7 +210,7 @@ First set up the context provider:
 ```
 import {LocaleContextProvider} from '@matriarx/i18n-react'
 
-export const App = (props: App): JSX.Element => {
+export const App = (): JSX.Element => {
   ...
   return (
     ...
@@ -227,7 +227,7 @@ export default App
 Then you can use the hook:
 
 ```
-import {useLocale} from '@matriarx/i18n-react'`
+import {useLocale} from '@matriarx/i18n-react'
 
 const Example = (): JSX.Element => {
   const {Language, Region, getSupportedLanguages, getSupportedCurrencies} = useLocale()
@@ -251,7 +251,7 @@ const locales = new Map<string, Map<string, string>>()
 
 locales.set('en-Latn-US', new Map<string, string>(Object.entries(enLatnUS)))
 
-export const App = (props: App): JSX.Element => {
+export const App = (): JSX.Element => {
   ...
   return (
     ...
@@ -275,7 +275,7 @@ export default App
 Then you can use them through the hook:
 
 ```
-import {useLocale} from '@matriarx/i18n-react'`
+import {useLocale} from '@matriarx/i18n-react'
 
 const Example = (): JSX.Element => {
   const {translate} = useLocale()
@@ -295,26 +295,12 @@ You will have to supply it with your own JSON formatted translations and the key
 🪄✨ git 💯\
 🪄✨ nvm 💯\
 🪄✨ node >= 18 💯\
-🪄✨ npm >= 8 💯\
-🪄✨ docker 🤷🏻‍♀️\
-🪄✨ docker compose 🤷🏻‍♀️
+🪄✨ npm >= 8 💯
 
 ### 🧚🏻‍♀️✨ Setup 🚧🚀
 
-You can either use the bin script or you can set it up manually.
-
-#### 🧚🏻‍♀️✨ Script
-
-🪄✨ `npx @matriarx/typescript init`
-
-> If you'd just like the latest version you can also use `wget -O - https://github.com/matriarx/typescript/raw/main/bin/init | sh` or `curl -L https://github.com/matriarx/typescript/raw/main/bin/init | sh`.
-
-#### 🧚🏻‍♀️✨ Manual
-
-🪄✨ `git clone https://github.com/matriarx/typescript.git`\
-🪄✨ `mv typescript <project>`\
-🪄✨ `cd <project>`\
-🪄✨ `cp .env.example .env`\
+🪄✨ `git clone https://github.com/matriarx/i18n-react.git`\
+🪄✨ `cd i18n-react`\
 🪄✨ `nvm use 18`\
 🪄✨ `npm install`
 

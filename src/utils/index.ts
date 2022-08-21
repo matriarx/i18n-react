@@ -1,19 +1,40 @@
-import browser from 'utils/browser'
-import intl from 'utils/intl'
-import datetime from 'utils/datetime'
-import location from 'utils/location'
-import text from 'utils/text'
+import {Calendar} from 'enums/datetime'
+import {Collation} from 'enums/text'
+import {NumberingSystem, Unit} from 'enums/number'
 
-export * from './browser'
-export * from './intl'
-export * from './datetime'
-export * from './location'
-export * from './text'
+export const getSystemLocale = (): Intl.Locale =>
+  new Intl.Locale(
+    navigator.languages[0] || 'en-Latn-US',
+  ).maximize() as Intl.Locale
+
+export const getCanonicalLocales = (locale: string): string[] =>
+  Intl.getCanonicalLocales(locale) as string[]
+
+export const getSupportedCalendars = (): Calendar[] =>
+  Intl.supportedValuesOf('calendar') as Calendar[]
+
+export const getSupportedTimeZones = (): string[] =>
+  Intl.supportedValuesOf('timeZone')
+
+export const getSupportedCollations = (): Collation[] =>
+  Intl.supportedValuesOf('collation') as Collation[]
+
+export const getSupportedNumberingSystems = (): NumberingSystem[] =>
+  Intl.supportedValuesOf('numberingSystem') as NumberingSystem[]
+
+export const getSupportedUnits = (): Unit[] =>
+  Intl.supportedValuesOf('unit') as Unit[]
+
+export const getSupportedCurrencies = (): string[] =>
+  Intl.supportedValuesOf('currency')
 
 export default {
-  ...browser,
-  ...intl,
-  ...datetime,
-  ...location,
-  ...text,
+  getSystemLocale,
+  getCanonicalLocales,
+  getSupportedCalendars,
+  getSupportedTimeZones,
+  getSupportedCollations,
+  getSupportedNumberingSystems,
+  getSupportedUnits,
+  getSupportedCurrencies,
 }
