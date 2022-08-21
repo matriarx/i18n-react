@@ -9,3 +9,18 @@ Thumbs.db
 *.save*
 .vscode
 .idea
+
+# npm
+node_modules
+yarn.lock
+pnpm-lock.yaml
+
+# build
+/lib
+/types
+/coverage
+/cache
+
+# other
+.env
+*.log

@@ -18,33 +18,159 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 jobs:
-  analyze:
-    name: Analyze
+  security:
+    name: Security
     runs-on: ubuntu-latest
-    env:
-      ENVIRONMENT: ci
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - javascript
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Initialize
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{matrix.language}}
+      - name: Analyze
+        uses: github/codeql-action/analyze@v2
+  review:
+    name: Review
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 18
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: npm
+      - name: Install
+        run: npm ci --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
+      - name: Review
+        run: npm run review
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 18
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: npm
+      - name: Install
+        run: npm ci --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
+      - name: Lint
+        run: npm run lint
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 18
+    env:
+      ENVIRONMENT: ci
+      NODE_ENV: ci
+      DEBUG: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: npm
+      - name: Install
+        run: npm ci --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
+      - name: Test
+        run: npm test
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 18
+    env:
+      ENVIRONMENT: ci
+      NODE_ENV: ci
+      DEBUG: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: npm
+      - name: Install
+        run: npm ci --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
+      - name: Lint
+        run: npm run lint -f json > report.json
+      - name: Test
+        run: npm test
       - name: Analyze
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
         with:
           args:
-            -Dsonar.organization=miamatriarx
+            -Dsonar.organization=matriarx
             -Dsonar.projectKey=matriarx_i18n-react
             -Dsonar.projectBaseDir=.
             -Dsonar.sources=src
             -Dsonar.tests=tests
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.eslint.reportPaths=report.json
             -Dsonar.verbose=true
   build:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 18
     env:
       ENVIRONMENT: production
+      NODE_ENV: production
+      DEBUG: false
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: npm
+      - name: Install
+        run: npm install --production --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
       - name: Build
-        run: echo Mock
+        run: npm run build

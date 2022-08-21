@@ -1,7 +1,7 @@
 <h1 align="center">🧚🏻‍♀️✨ i18n React ✨🧚🏻‍♀️🦄🔮🏰💕</h1>
 
 <div align="center">
-  <p>🔮 i18n React 🦄</p>
+  <p>🔮 Internationalization & Localization ~ React 🦄</p>
 
   <p><i>🧚🏻‍♀️✨ Created with sprinkles of ✨ and oodles of 💕</i></p>
 
@@ -39,7 +39,9 @@
   </p>
 </div>
 
-A (GitHub) repository template that contains minimalistic boilerplate for any repository.  It contains basic documentation, badges and preconfigured CI/CD workflows.  You likely don't want to use everything exactly the way it is, but it'll allow you to get set up quickly.  The rest is up to you.
+An internationalization and localization project for React.  It contains a localization context provider built on the `Intl` browser API, several enumerations and support for translations.
+
+This project is a continuous work in progress.
 
 ## 🧚🏻‍♀️✨ Status 🌈☁️
 
@@ -190,6 +192,149 @@ A (GitHub) repository template that contains minimalistic boilerplate for any re
     <img src="https://img.shields.io/github/issues-pr-closed-raw/matriarx/i18n-react?logo=github&label=Closed+Pull+Requests&color=40a0a0&logoColor=ffffff" title="Closed Pull Requests" alt="Closed Pull Requests"/>
   </a>
 </p>
+
+## 🧚🏻‍♀️✨ Requirements 🗝️🔒
+
+🪄✨ nvm 🤷🏻‍♀️\
+🪄✨ node >= 18 💯\
+🪄✨ npm >= 8 💯
+
+### 🧚🏻‍♀️✨ Setup 🚧🚀
+
+🪄✨ `npm i @matriarx/i18n-react`
+
+### 🧚🏻‍♀️✨ Usage ✨🦄
+
+First set up the context provider:
+
+```
+import {LocaleContextProvider} from '@matriarx/i18n-react'
+
+export const App = (props: App): JSX.Element => {
+  ...
+  return (
+    ...
+    <LocaleContextProvider>
+      ...
+    </LocaleContextProvider>
+    ...
+  )
+}
+
+export default App
+```
+
+Then you can use the hook:
+
+```
+import {useLocale} from '@matriarx/i18n-react'`
+
+const Example = (): JSX.Element => {
+  const {Language, Region, getSupportedLanguages, getSupportedCurrencies} = useLocale()
+
+  return <></>
+}
+
+export default Example
+```
+
+There are a lot of enumerations, utility functions and other neat things you can use.
+
+If you need translation support you can set up the translations as well:
+
+```
+import {LocaleContextProvider} from '@matriarx/i18n-react'
+
+import enLatnUS from 'static/locales/en-Latn-US.json'
+
+const locales = new Map<string, Map<string, string>>()
+
+locales.set('en-Latn-US', new Map<string, string>(Object.entries(enLatnUS)))
+
+export const App = (props: App): JSX.Element => {
+  ...
+  return (
+    ...
+    <LocaleContextProvider
+      locales={locales}
+      default={{
+        language: Language.EN,
+        script: Script.LATN,
+        region: Region.US,
+      }}
+    >
+      ...
+    </LocaleContextProvider>
+    ...
+  )
+}
+
+export default App
+```
+
+Then you can use them through the hook:
+
+```
+import {useLocale} from '@matriarx/i18n-react'`
+
+const Example = (): JSX.Element => {
+  const {translate} = useLocale()
+
+  return <>{translate('Hello World')</>
+}
+
+export default Example
+```
+
+You will have to supply it with your own JSON formatted translations and the key of the map should be of the form `language`-`script`-`region`.
+
+## 🧚🏻‍♀️✨ Development ✨🔮
+
+### 🧚🏻‍♀️✨ Requirements 🗝️🔒
+
+🪄✨ git 💯\
+🪄✨ nvm 💯\
+🪄✨ node >= 18 💯\
+🪄✨ npm >= 8 💯\
+🪄✨ docker 🤷🏻‍♀️\
+🪄✨ docker compose 🤷🏻‍♀️
+
+### 🧚🏻‍♀️✨ Setup 🚧🚀
+
+You can either use the bin script or you can set it up manually.
+
+#### 🧚🏻‍♀️✨ Script
+
+🪄✨ `npx @matriarx/typescript init`
+
+> If you'd just like the latest version you can also use `wget -O - https://github.com/matriarx/typescript/raw/main/bin/init | sh` or `curl -L https://github.com/matriarx/typescript/raw/main/bin/init | sh`.
+
+#### 🧚🏻‍♀️✨ Manual
+
+🪄✨ `git clone https://github.com/matriarx/typescript.git`\
+🪄✨ `mv typescript <project>`\
+🪄✨ `cd <project>`\
+🪄✨ `cp .env.example .env`\
+🪄✨ `nvm use 18`\
+🪄✨ `npm install`
+
+### 🧚🏻‍♀️✨ Usage ✨🦄
+
+🪄✨ `npm start` ~ Start `lib/index.js`.\
+🪄✨ `npm run compile` ~ Compile the source code using `typescript`.\
+🪄✨ `npm run build` ~ Create a production build using `@swc/core`.\
+🪄✨ `npm run dev` ~ Compile in watch mode to recompile on file changes.\
+🪄✨ `npm run review` ~ Statically analyze the codebase using `typescript`.\
+🪄✨ `npm run lint` ~ Lint the codebase using `eslint`.\
+🪄✨ `npm run style` ~ Style and format the codebase using `prettier`.\
+🪄✨ `npm run test` ~ Run the tests using `jest`.\
+🪄✨ `npm run qa` ~ Run review, lint, style and test.\
+🪄✨ `npm run type` ~ Generate types using `typescript`.\
+🪄✨ `npm run compose` ~ Start a docker container for development.\
+🪄✨ `npm run recompose` ~ Rebuild the docker container.\
+🪄✨ `npm run release` ~ Create a docker release image.\
+🪄✨ `npm run deploy` ~ Start a docker container using the release image.\
+🪄✨ `npm run prepare` ~ Automatically run on `npm install` to add `husky` hooks to git for `lint-staged`.
 
 ## 🧚🏻‍♀️✨ Documentation 📚🔮
 
