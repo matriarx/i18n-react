@@ -1,7 +1,7 @@
-import datetime from 'enums/datetime'
-import location from 'enums/location'
-import text from 'enums/text'
-import number from 'enums/number'
+import datetime from './datetime'
+import location from './location'
+import text from './text'
+import number from './number'
 
 export * from './datetime'
 export * from './location'

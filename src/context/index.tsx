@@ -1,6 +1,6 @@
 import {createContext, useState, useEffect} from 'react'
 
-import {getSystemLocale} from 'utils'
+import {getSystemLocale} from '../utils'
 
 import {
   Calendar,
@@ -9,7 +9,7 @@ import {
   Script,
   Collation,
   NumberingSystem,
-} from 'enums'
+} from '../enums'
 
 import type {ReactNode} from 'react'
 
