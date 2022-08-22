@@ -282,12 +282,10 @@ export default Example
 ```
 import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
 
-import en from '/path/to/en.json'
-
 const translations = new Map<string, Map<string, string>>()
-const path = '/path/to/en.json'
+const uri = 'https://cdn.host.tld/en.json'
 
-translations.set(new Intl.Locale(Language.EN).maximize().baseName, path))
+translations.set(new Intl.Locale(Language.EN).maximize().baseName, uri))
 
 export const App = (): JSX.Element => {
   ...
@@ -306,7 +304,7 @@ export const App = (): JSX.Element => {
 export default App
 ```
 
-> To lazy load translation data you can provide an import path instead of a map.
+> To lazy load translation data you can provide a URI instead of a map.
 
 ## 🧚🏻‍♀️✨ Development ✨🔮
 

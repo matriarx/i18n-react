@@ -110,7 +110,9 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
       return
     }
 
-    const data = (await import(translations.get(baseName) as string)).default
+    const uri = translations.get(baseName) as string
+    const response = await fetch(uri)
+    const data = await response.json()
     const map = new Map(translations).set(
       baseName,
       new Map<string, string>(Object.entries(data)),
