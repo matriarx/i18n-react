@@ -1,6 +1,6 @@
-import {Calendar} from 'enums/datetime'
-import {Collation} from 'enums/text'
-import {NumberingSystem, Unit} from 'enums/number'
+import {Calendar} from '../enums/datetime'
+import {Collation} from '../enums/text'
+import {NumberingSystem, Unit} from '../enums/number'
 
 export const getSystemLocale = (): Intl.Locale =>
   new Intl.Locale(
