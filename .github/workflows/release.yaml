@@ -189,6 +189,8 @@ jobs:
           cache: npm
       - name: Install
         run: npm install --package-lock --save-exact --strict-peer-deps --audit --ignore-scripts
+      - name: Build
+        run: npm run build
       - name: Type
         run: npm run type
       - name: Publish
