@@ -18,7 +18,7 @@
     "noLib": false,
     "lib": ["esnext", "dom"],
     "target": "es2022",
-    "module": "nodenext",
+    "module": "es2022",
     "moduleResolution": "node",
     "moduleSuffixes": [""],
     "noResolve": false,
