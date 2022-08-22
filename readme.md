@@ -41,8 +41,6 @@
 
 An internationalization and localization project for React.  It contains a localization context provider built on the `Intl` browser API, several enumerations, utilities and support for translations.
 
-This project is a continuous work in progress.
-
 ## 🧚🏻‍♀️✨ Status 🌈☁️
 
 <p>
