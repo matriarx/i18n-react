@@ -1,4 +1,4 @@
-<h1 align="center">🧚🏻‍♀️✨ i18n React ✨🧚🏻‍♀️🦄🔮🏰💕</h1>
+<h1 align="center">🧚🏻‍♀️✨ I18n React ✨🧚🏻‍♀️🦄🔮🏰💕</h1>
 
 <div align="center">
   <p>🔮 Internationalization & Localization ~ React 🦄</p>
