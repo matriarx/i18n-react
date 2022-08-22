@@ -16,11 +16,13 @@ yarn.lock
 pnpm-lock.yaml
 
 # build
+.swc
 /lib
 /types
-/coverage
-/cache
+*.map
 
-# other
+# local
 .env
-.swc
+coverage
+cache
+*.log

@@ -1,44 +1,69 @@
 {
   "test": ".*.tsx?$",
+  "exclude": ["lib", "coverage"],
   "isModule": true,
   "jsc": {
     "baseUrl": ".",
     "paths": {
       "app": ["src"],
       "app/*": ["src/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
       "context": ["src/context"],
       "context/*": ["src/context/*"],
+      "routes": ["src/routes"],
+      "routes/*": ["src/routes/*"],
+      "components": ["src/components"],
+      "components/*": ["src/components/*"],
       "hooks": ["src/hooks"],
       "hooks/*": ["src/hooks/*"],
+      "api": ["src/api"],
+      "api/*": ["src/api/*"],
+      "data": ["src/data"],
+      "data/*": ["src/data*"],
       "utils": ["src/utils"],
       "utils/*": ["src/utils/*"],
       "enums": ["src/enums"],
       "enums/*": ["src/enums/*"],
       "types": ["src/types"],
-      "types/*": ["src/types/*"]
+      "types/*": ["src/types/*"],
+      "static": ["src/static"],
+      "static/*": ["src/static/*"]
     },
     "parser": {
       "syntax": "typescript",
       "dynamicImport": true,
       "topLevelAwait": true,
-      "privateMethod": false,
-      "functionBind": false,
-      "exportDefaultFrom": false,
-      "exportNamespaceFrom": false,
-      "decorators": false,
-      "decoratorsBeforeExport": false,
-      "importMeta": false,
+      "importMeta": true,
+      "functionBind": true,
+      "privateMethod": true,
+      "classPrivateProperty": true,
+      "exportDefaultFrom": true,
+      "exportNamespaceFrom": true,
+      "decorators": true,
+      "decoratorsBeforeExport": true,
       "jsx": false,
       "tsx": true
     },
     "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true,
+      "optimizer": {
+        "simplify": true,
+        "jsonify": {
+          "minCost": 0
+        }
+      },
       "react": {
         "runtime": "automatic",
+        "importSource": "react",
         "pragma": "h",
-        "pragmaFrag": "f"
-      },
-      "legacyDecorator": false,
-      "decoratorMetadata": false
+        "pragmaFrag": "f",
+        "useBuiltins": true,
+        "throwIfNamespace": true,
+        "development": true,
+        "refresh": true
+      }
     },
     "target": "es2022",
     "loose": false,
@@ -46,7 +71,8 @@
     "externalHelpers": false,
     "preserveAllComments": false,
     "experimental": {
-      "keepImportAssertions": true
+      "keepImportAssertions": true,
+      "plugins": []
     }
   },
   "module": {
