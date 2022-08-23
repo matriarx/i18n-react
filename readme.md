@@ -197,13 +197,13 @@ An internationalization and localization project for React.  It contains a local
 🪄✨ node >= 18 💯\
 🪄✨ npm >= 8 💯
 
-### 🧚🏻‍♀️✨ Setup 🚧🚀
+## 🧚🏻‍♀️✨ Setup 🚧🚀
 
 🪄✨ `npm i @matriarx/i18n-react`
 
-### 🧚🏻‍♀️✨ Usage ✨🦄
+## 🧚🏻‍♀️✨ Usage ✨🦄
 
-#### 🧚🏻‍♀️✨ Context
+### 🧚🏻‍♀️✨ Context
 
 ```
 import {LocaleContextProvider} from '@matriarx/i18n-react'
@@ -219,7 +219,7 @@ export const App = (): JSX.Element => {
 export default App
 ```
 
-#### 🧚🏻‍♀️✨ Hook
+### 🧚🏻‍♀️✨ Hook
 
 ```
 import {useLocale} from '@matriarx/i18n-react'
@@ -233,7 +233,7 @@ const Example = (): JSX.Element => {
 export default Example
 ```
 
-#### 🧚🏻‍♀️✨ Translations
+### 🧚🏻‍♀️✨ Translations
 
 ```
 import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
@@ -275,7 +275,7 @@ const Example = (): JSX.Element => {
 export default Example
 ```
 
-#### 🧚🏻‍♀️✨ Lazy
+### 🧚🏻‍♀️✨ Lazy
 
 ```
 import {LocaleContextProvider, Language} from '@matriarx/i18n-react'
