@@ -1,6 +1,12 @@
 import {createContext, useState, useEffect} from 'react'
 
-import {getSystemLocale} from '../utils'
+import {
+  getLocalStorageLocale,
+  setLocalStorageLocale,
+  getLocalStorageTranslations,
+  setLocalStorageTranslations,
+  getSystemLocale,
+} from '../utils'
 
 import {
   Calendar,
@@ -12,34 +18,6 @@ import {
 } from '../enums'
 
 import type {ReactNode} from 'react'
-
-export const getLocalStorageLocale = (): Intl.Locale | null => {
-  const locale = JSON.parse(localStorage.getItem('matriarx_locale') || 'null')
-
-  return locale ? new Intl.Locale(locale) : null
-}
-
-export const setLocalStorageLocale = (locale: Intl.Locale) =>
-  localStorage.setItem('matriarx_locale', JSON.stringify(locale.baseName))
-
-export const getLocalStorageTranslations = (): Map<
-  string,
-  Map<string, string> | string
-> | null => {
-  const translations = JSON.parse(
-    localStorage.getItem('matriarx_translations') || 'null',
-  )
-
-  return translations
-    ? new Map<string, Map<string, string> | string>(
-        Object.entries(translations),
-      )
-    : null
-}
-
-export const setLocalStorageTranslations = (
-  translations: Map<string, Map<string, string> | string>,
-) => localStorage.setItem('matriarx_locale', JSON.stringify(translations))
 
 export interface LocaleContext {
   locale: Intl.Locale
@@ -191,10 +169,6 @@ export const LocaleContextProvider = (props: LocaleContextProvider) => {
 }
 
 export default {
-  getLocalStorageLocale,
-  setLocalStorageLocale,
-  getLocalStorageTranslations,
-  setLocalStorageTranslations,
   LocaleContext,
   LocaleContextProvider,
 }
