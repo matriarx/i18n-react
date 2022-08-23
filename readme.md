@@ -309,7 +309,7 @@ export default App
 ### 🧚🏻‍♀️✨ Requirements 🗝️🔒
 
 🪄✨ git 💯\
-🪄✨ nvm 💯\
+🪄✨ nvm 🤷🏻‍♀️\
 🪄✨ node >= 18 💯\
 🪄✨ npm >= 8 💯
 
