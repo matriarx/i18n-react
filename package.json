@@ -1,7 +1,7 @@
 {
   "name": "@matriarx/i18n-react",
-  "version": "0.0.7",
-  "description": "Internationalization & Localization ~ React",
+  "version": "0.0.8",
+  "description": "An internationalization and localization project for React",
   "keywords": [
     "mia",
     "matriarx",

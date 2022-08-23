@@ -1,7 +1,7 @@
 <h1 align="center">🧚🏻‍♀️✨ I18n ~ React ✨🧚🏻‍♀️🦄🔮🏰💕</h1>
 
 <div align="center">
-  <p>🔮 Internationalization & Localization ~ React 🦄</p>
+  <p>🔮 An internationalization and localization project for React 🦄</p>
 
   <p><i>🧚🏻‍♀️✨ Created with sprinkles of ✨ and oodles of 💕</i></p>
 
